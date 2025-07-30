@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMU雲端查詢系統 - 進度管控表Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-chart-line me-2"></i>
+                IMU雲端查詢系統進度管控表
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text" id="lastUpdated">
+                    <i class="fas fa-clock me-1"></i>
+                    載入中...
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <!-- 載入指示器 -->
+        <div id="loadingIndicator" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">載入中...</span>
+            </div>
+            <p class="mt-3">正在載入數據...</p>
+        </div>
+
+        <!-- 主要內容 -->
+        <div id="mainContent" style="display: none;">
+            <!-- 統計卡片 -->
+            <div class="row mb-4">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stat-card bg-primary text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="card-title">總專案數</h5>
+                                    <h2 id="totalProjects">0</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stat-card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="card-title">整體進度</h5>
+                                    <h2 id="overallProgress">0%</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stat-card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="card-title">團隊數量</h5>
+                                    <h2 id="teamCount">0</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card stat-card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="card-title">開發人員</h5>
+                                    <h2 id="developerCount">0</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 圖表區域 -->
+            <div class="row mb-4">
+                <div class="col-lg-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-users me-2"></i>
+                                團隊進度統計
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="teamProgressChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-code me-2"></i>
+                                程式語言分布
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="languageChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 個人進度區域 -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-user-check me-2"></i>
+                                個人進度統計
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="individualProgress"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 專案清單 -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-list me-2"></i>
+                                專案清單
+                            </h5>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="refreshData()">
+                                    <i class="fas fa-sync-alt me-1"></i>
+                                    重新整理
+                                </button>
+                                <button type="button" class="btn btn-outline-success btn-sm" onclick="exportData()">
+                                    <i class="fas fa-download me-1"></i>
+                                    匯出數據
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="projectTable">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>應用程式代號</th>
+                                            <th>需求類型</th>
+                                            <th>程式語言</th>
+                                            <th>應用程式名稱</th>
+                                            <th>團隊</th>
+                                            <th>開發人員</th>
+                                            <th>預計人日</th>
+                                            <th>啟動日期</th>
+                                            <th>預計完成</th>
+                                            <th>二代轉三代</th>
+                                            <th>介接MongoDB</th>
+                                            <th>開發進度</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="projectTableBody">
+                                        <!-- 數據將動態載入 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 錯誤提示 -->
+    <div id="errorAlert" class="alert alert-danger alert-dismissible fade" role="alert" style="display: none;">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <span id="errorMessage"></span>
+        <button type="button" class="btn-close" onclick="hideError()"></button>
+    </div>
+
+    <!-- 腳本 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script-static.js"></script>
+</body>
+</html>

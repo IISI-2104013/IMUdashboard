@@ -1,0 +1,275 @@
+/* 通用樣式 */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* 統計卡片樣式 */
+.stat-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.stat-card .card-body {
+    padding: 1.5rem;
+}
+
+.stat-card h2 {
+    font-weight: 700;
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.stat-card h5 {
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+/* 卡片樣式 */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-bottom: none;
+    border-radius: 15px 15px 0 0 !important;
+    color: white;
+    padding: 1rem 1.5rem;
+}
+
+.card-title {
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+/* 導航欄樣式 */
+.navbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+/* 表格樣式 */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: 600;
+    border-top: none;
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
+.table td {
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+    font-size: 0.9rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+/* 進度條樣式 */
+.progress {
+    height: 8px;
+    border-radius: 10px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+/* 個人進度卡片 */
+.individual-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border-left: 4px solid #667eea;
+}
+
+.individual-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.individual-name {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.individual-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.project-count {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.progress-percentage {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #495057;
+}
+
+/* 進度條顏色 */
+.progress-excellent { background-color: #28a745; }
+.progress-good { background-color: #17a2b8; }
+.progress-average { background-color: #ffc107; }
+.progress-poor { background-color: #dc3545; }
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .stat-card h2 {
+        font-size: 2rem;
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+    }
+    
+    .container-fluid {
+        padding: 0 15px;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.8rem;
+    }
+    
+    .individual-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* 載入動畫 */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* 按鈕樣式 */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* 錯誤提示 */
+#errorAlert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    max-width: 400px;
+}
+
+/* 徽章樣式 */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 8px;
+}
+
+/* 圖表容器 */
+canvas {
+    max-height: 400px;
+}
+
+/* 自定義滾動條 */
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 動畫效果 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card, .stat-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* 狀態標記 */
+.status-excellent { color: #28a745; }
+.status-good { color: #17a2b8; }
+.status-average { color: #ffc107; }
+.status-poor { color: #dc3545; }
